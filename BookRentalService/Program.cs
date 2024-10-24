@@ -2,13 +2,24 @@ using BookRentalService.Data;
 using BookRentalService.Repository;
 using BookRentalService.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<SmtpClient>(provider => new SmtpClient
+{
+    Host = "your-smtp-host",
+    Port = 587, // SMTP port
+    Credentials = new NetworkCredential("your-email@example.com", "your-email-password"),
+    EnableSsl = true,
+});
 
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-
+builder.Services.AddScoped<ILoggerService, LoggerService>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 // Add services to the container.
 builder.Services.AddControllers();

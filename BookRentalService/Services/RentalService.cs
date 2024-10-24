@@ -8,12 +8,12 @@ namespace BookRentalService.Services
     public class RentalService : IRentalService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILoggerService<RentalService> _logger;
+        //private readonly ILoggerService<RentalService> _logger;
 
-        public RentalService(ApplicationDbContext context, ILoggerService<RentalService> logger)
+        public RentalService(ApplicationDbContext context)
         {
             _context = context;
-            _logger = logger;
+            //_logger = logger;
         }
 
         // View rental history by user
@@ -35,7 +35,7 @@ namespace BookRentalService.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving rental history for user {UserId}", userId);
+                //_logger.LogError(ex, "Error retrieving rental history for user {UserId}", userId);
                 throw new Exception("Error retrieving rental history.");
             }
         }
@@ -56,12 +56,12 @@ namespace BookRentalService.Services
                 }
 
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("{Count} rentals marked as overdue.", overdueRentals.Count);
+                //_logger.LogInformation("{Count} rentals marked as overdue.", overdueRentals.Count);
                 return overdueRentals.Count;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error marking overdue rentals.");
+                //_logger.LogError(ex, "Error marking overdue rentals.");
                 throw new Exception("Error marking overdue rentals.");
             }
         }
@@ -104,7 +104,7 @@ namespace BookRentalService.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving rental statistics.");
+                //_logger.LogError(ex, "Error retrieving rental statistics.");
                 throw new Exception("Error retrieving rental statistics.");
             }
         }
@@ -122,12 +122,12 @@ namespace BookRentalService.Services
                 _context.Rentals.Update(rental);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Rental {RentalId} extended by {Days} days", rentalId, extensionDays);
+                //_logger.LogInformation("Rental {RentalId} extended by {Days} days", rentalId, extensionDays);
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while extending rental {RentalId}", rentalId);
+                //_logger.LogError(ex, "Error while extending rental {RentalId}", rentalId);
                 throw new Exception("Error extending the rental.");
             }
         }

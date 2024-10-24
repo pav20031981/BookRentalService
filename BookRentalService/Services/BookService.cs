@@ -8,12 +8,12 @@ namespace BookRentalService.Services
     public class BookService : IBookService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILoggerService<BookService> _logger;
+        //private readonly ILoggerService<BookService> _logger;
 
-        public BookService(ApplicationDbContext context, ILoggerService<BookService> logger)
+        public BookService(ApplicationDbContext context)
         {
             _context = context;
-            _logger = logger;
+            //_logger = logger;
         }
 
         // Search for books by name and/or genre
@@ -33,7 +33,7 @@ namespace BookRentalService.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while searching for books");
+                //_logger.LogError(ex, "Error while searching for books");
                 throw new Exception("Error searching for books.");
             }
         }
@@ -68,13 +68,13 @@ namespace BookRentalService.Services
 
                     await transaction.CommitAsync();
 
-                    _logger.LogInformation("Book {BookId} rented by User {UserId}", bookId, userId);
+                    //_logger.LogInformation("Book {BookId} rented by User {UserId}", bookId, userId);
                     return true;
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    _logger.LogError(ex, "Error while renting book {BookId} for user {UserId}", bookId, userId);
+                    //_logger.LogError(ex, "Error while renting book {BookId} for user {UserId}", bookId, userId);
                     throw new Exception("Error while renting the book.");
                 }
             }
@@ -96,12 +96,12 @@ namespace BookRentalService.Services
                 _context.Rentals.Update(rental);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Book {BookId} returned by User {UserId}", rental.BookId, rental.UserId);
+                //_logger.LogInformation("Book {BookId} returned by User {UserId}", rental.BookId, rental.UserId);
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while returning book with rental id {RentalId}", rentalId);
+                //_logger.LogError(ex, "Error while returning book with rental id {RentalId}", rentalId);
                 throw new Exception("Error while returning the book.");
             }
         }
@@ -115,7 +115,7 @@ namespace BookRentalService.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while retrieving book {BookId}", bookId);
+                //_logger.LogError(ex, "Error while retrieving book {BookId}", bookId);
                 throw new Exception("Error retrieving the book.");
             }
         }
